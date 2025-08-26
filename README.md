@@ -46,9 +46,6 @@ This is an **educational** project — **not** a medical device and **not** for 
 - **ROC-AUC:** ~**0.97–0.98** (MLP)  
 - Baseline comparison: Perceptron (reported in notebook)
 
-**Curves**
-- ROC and Precision–Recall curves are exported to `figs/roc_curve.png` and `figs/pr_curve.png`.
-
 ---
 
 ## 5) How to run (reproducible)
