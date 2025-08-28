@@ -1,7 +1,7 @@
 # Breast-Cancer Cytology Classifier (MLP, scikit-learn)
 
 > **TL;DR** — Leakage-safe pipeline (`StandardScaler → MLPClassifier(lbfgs)`) that predicts **malignant (1)** vs **benign (0)** from 5 cytology features.  
-> On held-out data: **Accuracy ≈ 0.89**, **Malignant recall ≈ 0.86**.  
+> On held-out data: **Accuracy ≈ 0.93**, **Malignant recall ≈ 0.90**.  
 > Stratified 5-fold CV AUC ≈ **0.97–0.98**. Dataset is mildly imbalanced (**~63:37**).
 
 ---
@@ -37,8 +37,8 @@ This is an **educational** project — **not** a medical device and **not** for 
 ## 4) Results (update with your exact numbers)
 
 **Held-out test set**
-- **Accuracy:** ~**0.89**  
-- **Malignant (class 1) recall:** ~**0.857**  
+- **Accuracy:** ~**0.93**  
+- **Malignant (class 1) recall:** ~**0.90**  
 - **Precision/Recall/F1 by class:** see classification report in the notebook  
 - **Confusion matrix:** included in figures
 
