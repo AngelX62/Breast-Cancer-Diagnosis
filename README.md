@@ -121,40 +121,38 @@ curl -s http://localhost:8000/ | jq
 
 Prediction (schema uses **exact** feature names from training):
 ```bash
-curl -X POST http://localhost:8000/predict   -H "Content-Type: application/json"   -d @- <<'JSON'
-{
-  "radius_mean": 14.127,
-  "texture_mean": 19.29,
-  "perimeter_mean": 91.969,
-  "area_mean": 654.889,
-  "smoothness_mean": 0.096,
-  "compactness_mean": 0.104,
-  "concavity_mean": 0.089,
-  "concave points_mean": 0.049,
-  "symmetry_mean": 0.181,
-  "fractal_dimension_mean": 0.063,
-  "radius_se": 0.405,
-  "texture_se": 1.217,
-  "perimeter_se": 2.866,
-  "area_se": 40.337,
-  "smoothness_se": 0.007,
-  "compactness_se": 0.025,
-  "concavity_se": 0.032,
-  "concave points_se": 0.012,
-  "symmetry_se": 0.021,
-  "fractal_dimension_se": 0.004,
-  "radius_worst": 16.269,
-  "texture_worst": 25.677,
-  "perimeter_worst": 107.261,
-  "area_worst": 880.583,
-  "smoothness_worst": 0.132,
-  "compactness_worst": 0.254,
-  "concavity_worst": 0.272,
-  "concave points_worst": 0.115,
-  "symmetry_worst": 0.29,
-  "fractal_dimension_worst": 0.084
-}
-JSON
+"example_record": {
+    "radius_mean": 11.41,
+    "texture_mean": 10.82,
+    "perimeter_mean": 73.34,
+    "area_mean": 403.3,
+    "smoothness_mean": 0.09373,
+    "compactness_mean": 0.06685,
+    "concavity_mean": 0.03512,
+    "concave points_mean": 0.02623,
+    "symmetry_mean": 0.1667,
+    "fractal_dimension_mean": 0.06113,
+    "radius_se": 0.1408,
+    "texture_se": 0.4607,
+    "perimeter_se": 1.103,
+    "area_se": 10.5,
+    "smoothness_se": 0.00604,
+    "compactness_se": 0.01529,
+    "concavity_se": 0.01514,
+    "concave points_se": 0.00646,
+    "symmetry_se": 0.01344,
+    "fractal_dimension_se": 0.002206,
+    "radius_worst": 12.82,
+    "texture_worst": 15.97,
+    "perimeter_worst": 83.74,
+    "area_worst": 510.5,
+    "smoothness_worst": 0.1548,
+    "compactness_worst": 0.239,
+    "concavity_worst": 0.2102,
+    "concave points_worst": 0.08958,
+    "symmetry_worst": 0.3016,
+    "fractal_dimension_worst": 0.08523
+  }
 ```
 
 ---
@@ -177,19 +175,13 @@ The FastAPI service reads the files in `models/` at startup; override with `MODE
 Build the image from the project root (the `Dockerfile` assumes `app/` and `models/` exist):
 
 ```
-docker build -t bc-screening:latest .
+docker build -t cancer-api:latest .
 ```
 
 Run the container on port 8000:
 
 ```
-docker run --rm -p 8000:8000 bc-screening:latest
-```
-
-If you’re mounting a different models directory at runtime:
-
-```
-docker run --rm -p 8000:8000 -e MODEL_DIR=/models -v $PWD/models:/models bc-screening:latest
+ docker run -d --name cancer-container-api -p 8000:8000 cancer-api
 ```
 
 ---
@@ -205,10 +197,13 @@ docker run --rm -p 8000:8000 -e MODEL_DIR=/models -v $PWD/models:/models bc-scre
 Add these to your `requirements.txt` (or a separate `requirements-dev.txt`) if you’ll run the notebooks:
 
 ```
-jupyter
-matplotlib
-seaborn
-imbalanced-learn
+fastapi==0.116.1
+uvicorn==0.35.0
+pydantic==2.11.7
+scikit-learn==1.7.1
+pandas==2.3.2
+numpy==2.3.2
+joblib==1.5.2
 ```
 
 ---
@@ -223,6 +218,6 @@ Use **`testing-api.ipynb`** for quick local/Docker sanity checks against `/` and
 
 - The API **forbids unknown keys** and requires **all** features present (no extras, no omissions). 
 - Train/test splits are **stratified**; SMOTE is applied **only to training data** for analysis.
-- The decision threshold is loaded from metadata and applied uniformly for inference; tune it during validation if your use‑case prioritizes recall, precision, or F2.
+- The decision threshold is loaded from metadata and applied uniformly for inference. Tune it during validation if your use‑case prioritizes recall, precision, or F2.
 
 ---
