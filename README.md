@@ -1,4 +1,4 @@
-# Breast Cancer Screening – ML + FastAPI + Docker
+# Breast Cancer Screening: ML + FastAPI + Docker
 
 End-to-end binary classification project packaged as a small web service. 
 You can reproduce data splits and training from notebooks, serve the best model behind a FastAPI endpoint, and ship it with Docker.
