@@ -222,3 +222,6 @@ Use **`testing-api.ipynb`** for quick local/Docker sanity checks against `/` and
 - The decision threshold is loaded from metadata and applied uniformly for inference. Tune it during validation if your use‑case prioritizes recall, precision, or F2.
 
 ---
+
+## License
+Project is distributed under [MIT License](https://github.com/AngelX62/Breast-Cancer-Diagnosis/blob/main/LICENSE)
