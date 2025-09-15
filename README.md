@@ -94,17 +94,6 @@ python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\act
 pip install -r requirements.txt
 ```
 
-> Example `requirements.txt` (runtime only):
-```
-fastapi
-uvicorn[standard]
-scikit-learn
-pandas
-numpy
-pydantic>=2,<3
-joblib
-```
-
 3) Launch the API:
 
 ```
@@ -190,20 +179,6 @@ Run the container on port 8000:
 - **MODEL_DIR**: environment variable to override where the API looks for model files (`logisticregression.joblib` and `logreg_meta.json`). Defaults to `./models` relative to repository root.
 
 ---
-
-## Dev dependencies (optional for notebooks)
-
-Add these to your `requirements.txt` (or a separate `requirements-dev.txt`) if you’ll run the notebooks:
-
-```
-fastapi==0.116.1
-uvicorn==0.35.0
-pydantic==2.11.7
-scikit-learn==1.7.1
-pandas==2.3.2
-numpy==2.3.2
-joblib==1.5.2
-```
 
 ---
 
