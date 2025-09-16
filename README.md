@@ -37,7 +37,8 @@ requirements.txt
 
 ## Data & preprocessing
 
-- Raw file: `data/data.csv` with columns `id`, `diagnosis` (B/M), 30 numeric features, and an unused `Unnamed: 32` column.  
+- Raw file: `data/data.csv` with columns `id`, `diagnosis` (B/M), 30 numeric features, and an unused `Unnamed: 32` column.
+- Source: https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data  
 - Notebook **01** converts the target to integers (`B → 0`, `M → 1`), drops `id` and `Unnamed: 32`, performs a **stratified** train/test split, and saves:
   - `data/processed/train.csv`
   - `data/processed/test.csv`
