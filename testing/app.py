@@ -6,17 +6,26 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 BASE = Path(__file__).resolve().parent
-MODEL_DIR = None
-for p in [BASE, *BASE.parents]:
-    cand = p / "models"
-    if cand.exists():
-        MODEL_DIR = cand
-        break
-assert MODEL_DIR, f"Couldn't find a 'models' folder starting from {BASE}"
+MODEL_CANDIDATES = [
+    BASE / "models" / "logisticregression.joblib",
+    BASE / "logisticregression.joblib",
+]
+META_CANDIDATES = [
+    BASE / "models" / "logreg_meta.json",
+    BASE / "logreg_meta.json",
+]
 
-# exact filenames / keys
-model = joblib.load(MODEL_DIR / "logisticregression.joblib")
-with open(MODEL_DIR / "logreg_meta.json", "r", encoding="utf-8") as f:
+model_path = next((p for p in MODEL_CANDIDATES if p.exists()), None)
+meta_path  = next((p for p in META_CANDIDATES if p.exists()), None)
+if model_path is None or meta_path is None:
+    raise FileNotFoundError(
+        "Missing model/meta.\n"
+        "Looked for model in:\n  - " + "\n  - ".join(map(str, MODEL_CANDIDATES)) +
+        "\nLooked for meta in:\n  - " + "\n  - ".join(map(str, META_CANDIDATES))
+    )
+
+model = joblib.load(model_path)
+with open(meta_path, "r", encoding="utf-8") as f:
     meta = json.load(f)
 
 feature = meta["features"]
@@ -55,8 +64,8 @@ def predict(*vals):
     proba_b = 1 - proba_m # Probability for benign
     label = "malignant" if proba_m >= float(threshold) else "benign"
     pred = {"label": label, 
-            "prob_malignant": round(proba_m, 4), 
-            "prob_benign": round(proba_b,  4),
+            "malignant_probability": round(proba_m, 4), 
+            "benign_probability": round(proba_b,  4),
             "threshold_used": round(float(threshold), 3)
         }
     return pred, json.dumps(row, indent=2)
